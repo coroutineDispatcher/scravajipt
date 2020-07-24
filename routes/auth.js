@@ -41,6 +41,7 @@ router.post('/login', async (req, res) => {
     const password = await bcrypt.compare(req.body.password, user.password)
     if(!password) return res.status(400).send('Email or password is wrong')
 
+    // Todo JWT
     res.send('Logged in');
 
 });
