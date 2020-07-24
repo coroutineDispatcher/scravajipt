@@ -1,24 +1,12 @@
 const router = require(('express')).Router();
 const User = require('../model/User');
-const Joi = require('@hapi/joi');
 const bcrypt = require('bcryptjs');
-const { request } = require('express');
-
-const schema = Joi.object({
-    name: Joi.string().min(6).required(),
-    email: Joi.string().min(6).required().email(),
-    password: Joi.string().min(6).required()
-});
-
-const loginSchema = Joi.object({
-    email: Joi.string().min(6).required().email(),
-    password: Joi.string().min(6).required()
-})
+const {registrationValidation , loginValidation} = require('../validation')
 
 router.post('/register', async (request, response) => {
 
     //validate first
-   const {error} =  schema.validate(request.body);
+   const {error} =  registrationValidation(request.body);
    if(error) return response.status(400).send(error.details[0].message);
 
    // check if already exists
@@ -44,7 +32,7 @@ router.post('/register', async (request, response) => {
 });
 
 router.post('/login', async (req, res) => {
-    const {error} =  loginSchema.validate(req.body);
+    const {error} =  loginValidation(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
     const user = await User.findOne({email: req.body.email});
