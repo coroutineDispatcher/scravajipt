@@ -42,6 +42,14 @@ const userSchema = mongoose.Schema({
     type: [Number],
     required: true,
   },
+  totalShieldPoints: {
+    type: Number,
+    required: true,
+  },
+  totalHarmPoints: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);
